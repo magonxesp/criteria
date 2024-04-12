@@ -42,6 +42,7 @@ class FilterBsonAdapter(fieldMap: FieldMap = mapOf()) : Adapter(fieldMap) {
             FilterOperator.NOT_EQUALS -> ne(mappedField, value)
             FilterOperator.CONTAINS -> regex(mappedField, ".*$value.*")
             FilterOperator.NOT_CONTAINS -> not(regex(mappedField, ".*$value.*"))
+            FilterOperator.REGEX -> regex(mappedField, value)
             else -> null
         }
     }
