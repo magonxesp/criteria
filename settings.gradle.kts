@@ -3,3 +3,5 @@ plugins {
 }
 rootProject.name = "criteria"
 
+include(":core")
+include(":spring-boot")

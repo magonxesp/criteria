@@ -1,24 +1,26 @@
-package io.github.magonxesp.criteria.infrastructure.spring
+package io.github.magonxesp.criteria.infrastructure.jpa
 
 import io.github.magonxesp.criteria.domain.Filter
 import io.github.magonxesp.criteria.domain.FilterOperator
+import io.github.magonxesp.criteria.infrastructure.Adapter
+import io.github.magonxesp.criteria.infrastructure.FieldMap
 import jakarta.persistence.criteria.CriteriaBuilder
 import jakarta.persistence.criteria.Path
 import jakarta.persistence.criteria.Predicate
 import jakarta.persistence.criteria.Root
 import java.time.Instant
 
-class FiltersToJPACriteriaPredicates(
+class FiltersJpaPredicateAdapter(
     private val root: Root<*>,
     private val builder: CriteriaBuilder,
-    private val fieldMap: FieldMap = mapOf()
-) {
+    fieldMap: FieldMap = mapOf()
+) : Adapter(fieldMap) {
     private fun Filter.field() = when (value) {
-        is String -> root.get<String>(fieldMap.mappedField(field))
-        is Int -> root.get<Int>(fieldMap.mappedField(field))
-        is Long -> root.get<Long>(fieldMap.mappedField(field))
-        is Double -> root.get<Double>(fieldMap.mappedField(field))
-        is Boolean -> root.get<Boolean>(fieldMap.mappedField(field))
+        is String -> root.get<String>(mappedField)
+        is Int -> root.get<Int>(mappedField)
+        is Long -> root.get<Long>(mappedField)
+        is Double -> root.get<Double>(mappedField)
+        is Boolean -> root.get<Boolean>(mappedField)
         else -> error("Unable to resolve the field type")
     }
 
@@ -31,30 +33,30 @@ class FiltersToJPACriteriaPredicates(
             FilterOperator.EQUALS -> builder.equal(field(), value)
             FilterOperator.NOT_EQUALS -> builder.notEqual(field(), value)
             FilterOperator.LESS_THAN -> when (value) {
-                is Int -> builder.lessThan(field() as Path<Int>, value)
-                is Long -> builder.lessThan(field() as Path<Long>, value)
-                is Double -> builder.lessThan(field() as Path<Double>, value)
+                is Int -> builder.lessThan(field() as Path<Int>, value as Int)
+                is Long -> builder.lessThan(field() as Path<Long>, value as Long)
+                is Double -> builder.lessThan(field() as Path<Double>, value as Double)
                 else -> null
             }
 
             FilterOperator.GREATER_THAN -> when (value) {
-                is Int -> builder.greaterThan(field() as Path<Int>, value)
-                is Long -> builder.greaterThan(field() as Path<Long>, value)
-                is Double -> builder.greaterThan(field() as Path<Double>, value)
+                is Int -> builder.greaterThan(field() as Path<Int>, value as Int)
+                is Long -> builder.greaterThan(field() as Path<Long>, value as Long)
+                is Double -> builder.greaterThan(field() as Path<Double>, value as Double)
                 else -> null
             }
 
             FilterOperator.LESS_THAN_EQUALS -> when (value) {
-                is Int -> builder.lessThanOrEqualTo(field() as Path<Int>, value)
-                is Long -> builder.lessThanOrEqualTo(field() as Path<Long>, value)
-                is Double -> builder.lessThanOrEqualTo(field() as Path<Double>, value)
+                is Int -> builder.lessThanOrEqualTo(field() as Path<Int>, value as Int)
+                is Long -> builder.lessThanOrEqualTo(field() as Path<Long>, value as Long)
+                is Double -> builder.lessThanOrEqualTo(field() as Path<Double>, value as Double)
                 else -> null
             }
 
             FilterOperator.GREATER_THAN_EQUALS -> when (value) {
-                is Int -> builder.greaterThanOrEqualTo(field() as Path<Int>, value)
-                is Long -> builder.greaterThanOrEqualTo(field() as Path<Long>, value)
-                is Double -> builder.greaterThanOrEqualTo(field() as Path<Double>, value)
+                is Int -> builder.greaterThanOrEqualTo(field() as Path<Int>, value as Int)
+                is Long -> builder.greaterThanOrEqualTo(field() as Path<Long>, value as Long)
+                is Double -> builder.greaterThanOrEqualTo(field() as Path<Double>, value as Double)
                 else -> null
             }
 
@@ -114,7 +116,6 @@ class FiltersToJPACriteriaPredicates(
         ?: instantPredicate()
         ?: error("The filter operator ${operator.operator} is not supported by the given value type")
 
-    fun mapFiltersToPredicates(filters: List<Filter>): Array<Predicate> =
-        filters.map { it.toPredicate() }.toTypedArray()
+    fun adapt(filters: List<Filter>): Array<Predicate> = filters.map { it.toPredicate() }.toTypedArray()
 }
 
