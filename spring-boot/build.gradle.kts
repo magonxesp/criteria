@@ -1,10 +1,38 @@
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
+	`java-library`
+	`maven-publish`
+	signing
 }
 
-group = "io.github.magonxesp.criteria"
+group = "io.github.magonxesp"
 version = "1.0-SNAPSHOT"
+
+publishing {
+	publications {
+		register<MavenPublication>("criteria-spring-boot") {
+			artifactId = "criteria-spring-boot"
+			from(components["java"])
+			pom {
+				name = "Criteria for Spring Boot"
+				description = "The Criteria library adapted with Spring Boot data specification adapter"
+				basicInformation()
+			}
+		}
+	}
+}
+
+signing {
+	sign(publishing.publications["criteria-spring-boot"])
+}
+
+tasks.javadoc {
+	if (JavaVersion.current().isJava9Compatible) {
+		(options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
+	}
+}
+
 
 repositories {
     mavenCentral()

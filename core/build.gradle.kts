@@ -1,10 +1,37 @@
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
+    `java-library`
+    `maven-publish`
+    signing
 }
 
-group = "io.github.magonxesp.criteria"
+group = "io.github.magonxesp"
 version = "1.0-SNAPSHOT"
+
+publishing {
+    publications {
+        register<MavenPublication>("criteria-core") {
+            artifactId = "criteria-core"
+            from(components["java"])
+            pom {
+                name = "Criteria core"
+                description = "The core of the Criteria library"
+                basicInformation()
+            }
+        }
+    }
+}
+
+signing {
+    sign(publishing.publications["criteria-core"])
+}
+
+tasks.javadoc {
+    if (JavaVersion.current().isJava9Compatible) {
+        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
+    }
+}
 
 repositories {
     mavenCentral()
