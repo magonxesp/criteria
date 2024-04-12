@@ -1,8 +1,6 @@
 # Criteria
 
-Run the `init.sh` script for initialize the template
-
-TODO: library description
+The Criteria design pattern implemented following the Hexagonal Architecture principles in Kotlin.
 
 ## Installation
 
@@ -10,13 +8,9 @@ Add the dependency on your `build.gradle.kts`
 
 ```kotlin
 dependencies {
-    implementation("io.github.magonxesp:criteria-core:v0.0.0")
+    implementation("io.github.magonxesp:criteria-core:0.0.0")
 }
 ```
-
-## Usage
-
-TODO: write usage example
 
 ## Development
 
