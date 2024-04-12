@@ -1,36 +1,43 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
-    `java-library`
-    `maven-publish`
-    signing
+	id("com.vanniktech.maven.publish")
 }
 
 group = "io.github.magonxesp"
-version = "1.0-SNAPSHOT"
+version = "0.0.0"
 
-publishing {
-    publications {
-        register<MavenPublication>("criteria-core") {
-            artifactId = "criteria-core"
-            from(components["java"])
-            pom {
-                name = "Criteria core"
-                description = "The core of the Criteria library"
-                basicInformation()
-            }
-        }
-    }
-}
+mavenPublishing {
+	coordinates(group as String, "criteria-core", version as String)
+	publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+	signAllPublications()
 
-signing {
-    sign(publishing.publications["criteria-core"])
-}
-
-tasks.javadoc {
-    if (JavaVersion.current().isJava9Compatible) {
-        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
-    }
+	pom {
+		name = "Criteria core"
+		description = "The core of the Criteria library"
+		url = "https://github.com/magonxesp/criteria"
+		licenses {
+			license {
+				name = "The MIT License (MIT)"
+				url = "https://mit-license.org/"
+			}
+		}
+		developers {
+			developer {
+				id = "magonxesp"
+				name = "MagonxESP"
+				email = "magonxesp@gmail.com"
+				url = "https://github.com/magonxesp"
+			}
+		}
+		scm {
+			connection = "scm:git:git://github.com/magonxesp/criteria.git"
+			developerConnection = "scm:git:ssh://github.com/magonxesp/criteria.git"
+			url = "https://github.com/magonxesp/criteria"
+		}
+	}
 }
 
 repositories {
