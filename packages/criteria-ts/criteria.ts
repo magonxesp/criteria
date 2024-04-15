@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDebounce } from "@/helpers/debounce.ts";
 
 interface Pagination {
     page: number
@@ -36,27 +37,35 @@ export interface Criteria {
     pagination: Pagination
 }
 
+type NamedFilters = {
+    [name: string]: Filter
+}
+
+type NamedOrderBys = {
+    [name: string]: OrderBy
+}
+
+type UseCriteriaOptions = {
+    initialFilters?: NamedFilters,
+    initialOrderBy?: NamedOrderBys,
+    pagination?: Pagination,
+    debounceMs?: number
+}
+
 export function encodeCriteriaToBase64(criteria: Criteria): string {
     return btoa(JSON.stringify(criteria))
 }
 
-const defaultCriteria: Criteria = {
-    filters: [],
-    orderBy: [],
-    pagination: {
-        page: 1, size: 10
+export function useCriteria({ initialFilters, initialOrderBy, pagination, debounceMs }: UseCriteriaOptions) {
+    const initialCriteria: Criteria = {
+        filters: Object.entries(initialFilters ?? {}).map(([_, filter]) => filter),
+        orderBy: Object.entries(initialOrderBy ?? {}).map(([_, orderBy]) => orderBy),
+        pagination: pagination ?? { page: 1, size: 10 }
     }
-}
 
-type NamedFilter = {
-    [name: string]: Filter
-}
-
-// TODO: replace default criteria with default named filters
-// TODO: add default "orderby" and pagination
-export function useCriteria(initialCriteria: Criteria = defaultCriteria) {
-    const [criteria, setCriteria] = useState(initialCriteria);
-    const [filters, setFilters] = useState<NamedFilter>({});
+    const [criteria, setCriteria] = useDebounce(initialCriteria, debounceMs ?? 0)
+    const [filters, setFilters] = useState<NamedFilters>(initialFilters ?? {})
+    const [orderBys, setOrderBys] = useState<NamedOrderBys>(initialOrderBy ?? {})
 
     const nextPage = (currentTotalPages: number) => {
         if (currentTotalPages == 0) {
@@ -103,11 +112,17 @@ export function useCriteria(initialCriteria: Criteria = defaultCriteria) {
         setCriteria({...criteria, filters: Object.values(filters) })
     }
 
-    const setOrderBy = (field: string, order: Order) => {
-        const orderBy = criteria.orderBy.filter(orderBy => orderBy.field !== field)
-        orderBy.push({ field, order })
+    const setOrderBy = (name: string, field: string, order: Order) => {
+        const orderBy = { name, field, order }
+        const newOrderBy = { ...orderBys, ...{ [name]: orderBy } }
+        setOrderBys(newOrderBy)
+        setCriteria({...criteria, orderBy: Object.values(newOrderBy) })
+    }
 
-        setCriteria({...criteria, orderBy })
+    const removeOrderBy = (name: string) => {
+        delete orderBys[name]
+        setOrderBys(orderBys)
+        setCriteria({...criteria, orderBy: Object.values(orderBys) })
     }
 
     return {
@@ -118,6 +133,7 @@ export function useCriteria(initialCriteria: Criteria = defaultCriteria) {
         setPageSize,
         setFilter,
         removeFilter,
-        setOrderBy
+        setOrderBy,
+        removeOrderBy
     }
 }
