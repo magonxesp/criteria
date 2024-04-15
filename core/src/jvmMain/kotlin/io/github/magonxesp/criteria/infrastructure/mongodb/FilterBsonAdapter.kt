@@ -8,6 +8,7 @@ import com.mongodb.client.model.Filters.gte
 import com.mongodb.client.model.Filters.lte
 import com.mongodb.client.model.Filters.regex
 import com.mongodb.client.model.Filters.not
+import com.mongodb.client.model.Filters.`in`
 import io.github.magonxesp.criteria.domain.Filter
 import io.github.magonxesp.criteria.domain.FilterOperator
 import io.github.magonxesp.criteria.infrastructure.Adapter
@@ -80,12 +81,25 @@ class FilterBsonAdapter(fieldMap: FieldMap = mapOf()) : Adapter(fieldMap) {
         }
     }
 
-    private fun Filter.toBson(): Bson = numberBson()
+	private fun Filter.listBson(): Bson? {
+		if (value !is List<*>) {
+			return null
+		}
+
+		return when (operator) {
+			FilterOperator.CONTAINS -> `in`(mappedField, value)
+			FilterOperator.NOT_CONTAINS -> not(`in`(mappedField, value))
+			else -> null
+		}
+	}
+
+    private fun Filter.toBson(): Bson =
+		numberBson()
         ?: stringBson()
         ?: booleanBson()
         ?: instantBson()
+		?: listBson()
         ?: error("The filter operator ${operator.operator} is not supported by the given value type")
-
 
     fun adapt(filters: List<Filter>): Array<Bson> = filters.map { it.toBson() }.toTypedArray()
 }
