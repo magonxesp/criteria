@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "io.github.magonxesp"
-version = "0.0.3"
+version = "0.0.4"
 
 mavenPublishing {
 	coordinates(group as String, "criteria-core", version as String)
@@ -75,6 +75,8 @@ kotlin {
             }
         }
     }
+
+	jvmToolchain(8)
 }
 
 tasks.withType<Test>().configureEach {

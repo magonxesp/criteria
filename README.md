@@ -12,6 +12,15 @@ dependencies {
 }
 ```
 
+## Usage
+
+Create a criteria adding filters and an order by.
+For example if we have a books database, and we have on the book table 
+
+```kotlin
+
+```
+
 ## Development
 
 [See the development guide](./docs/development.md)
