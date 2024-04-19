@@ -8,27 +8,32 @@ import kotlinx.serialization.json.*
 @Serializable
 class SerializableFilter(
     val field: String,
-    val value: JsonPrimitive,
+    val value: JsonElement,
     val operator: String,
 )
 
-private fun Any.toJsonPrimitive() = when (this) {
+private fun Any.toJsonElement(): JsonElement = when (this) {
     is String -> JsonPrimitive(this)
     is Int -> JsonPrimitive(this)
     is Long -> JsonPrimitive(this)
     is Double -> JsonPrimitive(this)
     is Boolean -> JsonPrimitive(this)
+	is Collection<*> -> JsonArray(this.map { it?.toJsonElement() ?: JsonNull })
     else -> JsonPrimitive(this.toString())
 }
 
-private fun JsonPrimitive.toAny(): Any = when {
-    isString -> content
-    intOrNull != null -> int
-    longOrNull != null -> long
-    floatOrNull != null -> float
-    doubleOrNull != null -> double
-    booleanOrNull != null -> boolean
-    else -> error("Unknown type for deserialize value property")
+private fun JsonElement.toAny(): Any = when(this) {
+	is JsonPrimitive -> when {
+		isString -> content
+		intOrNull != null -> int
+		longOrNull != null -> long
+		floatOrNull != null -> float
+		doubleOrNull != null -> double
+		booleanOrNull != null -> boolean
+		else -> error("Unknown type for deserialize value property")
+	}
+    is JsonArray -> map { it.toAny() }
+	else -> error("Unknown type for deserialize value property")
 }
 
 fun SerializableFilter.toFilter() = Filter(
@@ -39,6 +44,6 @@ fun SerializableFilter.toFilter() = Filter(
 
 fun Filter.toSerializableFilter() = SerializableFilter(
     field = field,
-    value = value.toJsonPrimitive(),
+    value = value.toJsonElement(),
     operator = operator.operator
 )
