@@ -8,7 +8,7 @@ Add the dependency on your `build.gradle.kts`
 
 ```kotlin
 dependencies {
-    implementation("io.github.magonxesp:criteria-core:0.0.3")
+    implementation("io.github.magonxesp:criteria-core:0.1.0")
 }
 ```
 

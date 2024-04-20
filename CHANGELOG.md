@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.0] - 2024-04-20
+
+### Features
+
+- Support kotlin instant
+
 ## [0.0.5] - 2024-04-20
 
 ### Refactor
