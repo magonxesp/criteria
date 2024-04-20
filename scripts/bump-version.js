@@ -33,7 +33,7 @@ function replaceVersion (file, searchRegex, newString) {
 ].forEach((file) => replaceVersion(
     file,
     /version = \"v?[0-9.]+\.?[a-z]*\.?[0-9]*\"/g, 
-    `version = \"${version}\"`,
+    `version = \"${version.replace(/^v/, '')}\"`,
 ))
 
 replaceVersion(

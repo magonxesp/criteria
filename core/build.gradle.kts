@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "io.github.magonxesp"
-version = "v0.1.0"
+version = "0.1.0"
 
 mavenPublishing {
 	coordinates(group as String, "criteria-core", version as String)
