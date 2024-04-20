@@ -1,6 +1,9 @@
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+	id("com.android.library")
     kotlin("multiplatform")
     kotlin("plugin.serialization")
 	id("com.vanniktech.maven.publish")
@@ -40,17 +43,21 @@ mavenPublishing {
 	}
 }
 
-repositories {
-    mavenCentral()
+android {
+	namespace = "io.github.magonxesp.criteria"
+	compileSdk = 34
+	defaultConfig {
+		minSdk = 24
+	}
+	compileOptions {
+		sourceCompatibility = JavaVersion.VERSION_1_8
+		targetCompatibility = JavaVersion.VERSION_1_8
+	}
 }
 
 kotlin {
-    jvm {
-        java {
-            targetCompatibility = JavaVersion.VERSION_1_8
-            sourceCompatibility = JavaVersion.VERSION_1_8
-        }
-    }
+	androidTarget()
+    jvm()
 
     sourceSets {
         commonMain {
@@ -75,4 +82,10 @@ kotlin {
             }
         }
     }
+}
+
+tasks.withType<KotlinCompile> {
+	compilerOptions {
+		jvmTarget.set(JvmTarget.JVM_1_8)
+	}
 }
