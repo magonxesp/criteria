@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.0.5] - 2024-04-20
+
+### Refactor
+
+- Use generic criteria instead of AnimeCriteria
+
 ## [0.0.3] - 2024-04-19
 
 ### Bug Fixes
