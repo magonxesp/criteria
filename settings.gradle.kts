@@ -1,6 +1,21 @@
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
+pluginManagement {
+	repositories {
+		google()
+		mavenCentral()
+		mavenLocal()
+		gradlePluginPortal()
+	}
 }
+
+dependencyResolutionManagement {
+	repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+	repositories {
+		google()
+		mavenCentral()
+		mavenLocal()
+	}
+}
+
 rootProject.name = "criteria"
 
 include(":core")

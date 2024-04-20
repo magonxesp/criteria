@@ -1,4 +1,4 @@
-.PHONY: first-version bump-version bump-version-alpha publish
+.PHONY: first-version bump-version bump-version-alpha publish publish-local
 
 first-version:
 	@/bin/bash -c scripts/create-first-version.sh
@@ -11,3 +11,6 @@ bump-version-alpha:
 
 publish:
 	@./gradlew publishAndReleaseToMavenCentral
+
+publish-local:
+	@./gradlew publishToMavenLocal
