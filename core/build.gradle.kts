@@ -89,3 +89,7 @@ tasks.withType<KotlinCompile> {
 		jvmTarget.set(JvmTarget.JVM_1_8)
 	}
 }
+
+tasks.withType<Test>().configureEach {
+	useJUnitPlatform()
+}
