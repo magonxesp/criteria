@@ -1,13 +1,7 @@
-.PHONY: first-version bump-version bump-version-alpha publish publish-local
-
-first-version:
-	@/bin/bash -c scripts/create-first-version.sh
+.PHONY: bump-version publish publish-local
 
 bump-version:
-	@/bin/bash -c scripts/bump-version-stable.sh
-
-bump-version-alpha:
-	@/bin/bash -c scripts/bump-version-alpha.sh
+	@deno run --allow-run --allow-write --allow-read scripts/bump-version.js
 
 publish:
 	@./gradlew publishAndReleaseToMavenCentral

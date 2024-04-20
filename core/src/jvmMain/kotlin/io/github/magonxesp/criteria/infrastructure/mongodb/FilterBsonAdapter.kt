@@ -50,11 +50,11 @@ class FilterBsonAdapter(fieldMap: FieldMap = mapOf()) : Adapter(fieldMap) {
 
     private fun Filter.instantBson(): Bson? =
         try {
-            if (value !is String) {
-                error("The value is not a string")
-            }
-
-            val timestamp = Instant.parse(value).toEpochMilliseconds()
+			val timestamp = when(value) {
+				is String -> Instant.parse(value).toEpochMilliseconds()
+				is Instant -> value.toEpochMilliseconds()
+				else -> error("The value is not a string or Instant")
+			}
 
             when (operator) {
                 FilterOperator.EQUALS -> eq(mappedField, timestamp)
