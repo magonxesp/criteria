@@ -1,8 +1,13 @@
 import com.vanniktech.maven.publish.SonatypeHost
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization")
+    kotlin("plugin.spring") version "1.9.23"
+	kotlin("plugin.jpa") version "1.9.23"
+	id("org.springframework.boot") version "3.1.4"
+	id("io.spring.dependency-management") version "1.1.3"
 	id("com.vanniktech.maven.publish")
 }
 
@@ -52,12 +57,24 @@ kotlin {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.1.4")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation(project(":core"))
 
 	testImplementation(kotlin("test"))
 	testImplementation("io.mockk:mockk:1.13.8")
 	testImplementation("io.github.serpro69:kotlin-faker:1.15.0")
 	testImplementation("io.kotest:kotest-runner-junit5:5.8.0")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.testcontainers:testcontainers:1.19.7")
+	testImplementation("org.testcontainers:mariadb:1.19.7")
+	testImplementation("org.testcontainers:junit-jupiter:1.19.7")
+	testRuntimeOnly("org.mariadb.jdbc:mariadb-java-client:3.3.3")
 }
 
+tasks.withType<Test>().configureEach {
+	useJUnitPlatform()
+}
+
+tasks.withType<BootJar>().configureEach {
+	enabled = false
+}

@@ -12,8 +12,9 @@ import java.time.Instant
 class FilterScalarPredicateAdapter(
 	root: Root<*>,
 	builder: CriteriaBuilder,
-	fieldMap: FieldMap = mapOf()
-) : JpaPredicateAdapter(root, builder, fieldMap) {
+	fieldMap: FieldMap = mapOf(),
+	joinMap: JoinMap = mapOf()
+) : JpaAdapter(root, builder, joinMap, fieldMap) {
 
 	fun numberPredicate(filter: Filter): Predicate? {
 		if (filter.value !is Number) {

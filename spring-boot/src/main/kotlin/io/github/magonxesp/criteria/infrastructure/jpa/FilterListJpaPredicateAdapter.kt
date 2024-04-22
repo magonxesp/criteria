@@ -10,8 +10,9 @@ import jakarta.persistence.criteria.Root
 class FilterListJpaPredicateAdapter(
     root: Root<*>,
    	builder: CriteriaBuilder,
-    fieldMap: FieldMap = mapOf()
-) : JpaPredicateAdapter(root, builder, fieldMap) {
+    fieldMap: FieldMap = mapOf(),
+	joinMap: JoinMap = mapOf()
+) : JpaAdapter(root, builder, joinMap, fieldMap) {
 	private fun Any.toList(): List<Any> {
 		if (this is Collection<*>) {
 			return this.map { it as Any }

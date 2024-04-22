@@ -9,10 +9,11 @@ import jakarta.persistence.criteria.Root
 class FiltersJpaPredicateAdapter(
     root: Root<*>,
    	builder: CriteriaBuilder,
-    fieldMap: FieldMap = mapOf()
-) : JpaPredicateAdapter(root, builder, fieldMap) {
-	private val scalarPredicates = FilterScalarPredicateAdapter(root, builder, fieldMap)
-	private val listPredicates = FilterListJpaPredicateAdapter(root, builder, fieldMap)
+    fieldMap: FieldMap = mapOf(),
+	joinMap: JoinMap = mapOf()
+) : JpaAdapter(root, builder, joinMap, fieldMap) {
+	private val scalarPredicates = FilterScalarPredicateAdapter(root, builder, fieldMap, joinMap)
+	private val listPredicates = FilterListJpaPredicateAdapter(root, builder, fieldMap, joinMap)
 
     private fun Filter.toPredicate(): Predicate =
 		scalarPredicates.numberPredicate(this)

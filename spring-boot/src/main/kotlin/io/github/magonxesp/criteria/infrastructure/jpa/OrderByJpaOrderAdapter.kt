@@ -7,15 +7,16 @@ import jakarta.persistence.criteria.*
 import io.github.magonxesp.criteria.domain.Order as DomainOrder
 
 class OrderByJpaOrderAdapter(
-    private val root: Root<*>,
-    private val builder: CriteriaBuilder,
-    fieldMap: FieldMap = mapOf()
-) : Adapter(fieldMap) {
+    root: Root<*>,
+    builder: CriteriaBuilder,
+    fieldMap: FieldMap = mapOf(),
+	joinMap: JoinMap = mapOf()
+) : JpaAdapter(root, builder, joinMap, fieldMap) {
     private fun OrderBy.toOrder(): Order =
         if (order == DomainOrder.ASC) {
-            builder.asc(root.get<Any>(mappedField))
+            builder.asc(mappedRoot.get<Any>(mappedField))
         } else {
-            builder.desc(root.get<Any>(mappedField))
+            builder.desc(mappedRoot.get<Any>(mappedField))
         }
 
     fun adapt(orderBy: List<OrderBy>): Array<Order> = orderBy.map { it.toOrder() }.toTypedArray()
