@@ -33,7 +33,11 @@ abstract class SpringBootTestCase {
 				"spring.jpa.properties.hibernate.jdbc.time_zone=UTC",
 				"spring.jpa.properties.hibernate.hbm2ddl.auto=update",
 				"spring.datasource.username=${mariaDb.username}",
-				"spring.datasource.password=${mariaDb.password}"
+				"spring.datasource.password=${mariaDb.password}",
+				"spring.jpa.show-sql=true",
+				"spring.jpa.properties.hibernate.format_sql=true",
+				"logging.level.org.hibernate=debug",
+				"logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE"
 			).applyTo(applicationContext.environment)
 		}
 	}
