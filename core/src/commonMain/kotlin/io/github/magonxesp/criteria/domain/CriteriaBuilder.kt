@@ -6,6 +6,13 @@ class CriteriaBuilder(
 	var page: Int = 1,
 	var pageSize: Int? = null
 ) {
+	constructor(criteria: Criteria) : this(
+		filters = criteria.filters.toMutableList(),
+		orderBy = criteria.orderBy.toMutableList(),
+		page = criteria.pagination.page,
+		pageSize = criteria.pagination.size
+	)
+
 	/**
 	 * Add a filter, for now all filters are chained with the "and" condition.
 	 */
@@ -27,3 +34,8 @@ class CriteriaBuilder(
  * Create a new Criteria instance with [CriteriaBuilder]
  */
 fun criteria(builder: CriteriaBuilder.() -> Unit) = CriteriaBuilder().apply { builder() }.build()
+
+/**
+ * Create a copy of an existing [Criteria] and return the copy with the modified one
+ */
+fun Criteria.modify(builder: CriteriaBuilder.() -> Unit) = CriteriaBuilder(this).apply { builder() }.build()
