@@ -64,8 +64,8 @@ class FilterScalarPredicateAdapter(
 		return when (filter.operator) {
 			FilterOperator.EQUALS -> builder.equal(filter.field(), filter.value)
 			FilterOperator.NOT_EQUALS -> builder.notEqual(filter.field(), filter.value)
-			FilterOperator.CONTAINS -> builder.like(filter.field() as Path<String>, "%$filter.value%")
-			FilterOperator.NOT_CONTAINS -> builder.notLike(filter.field() as Path<String>, "%$filter.value%")
+			FilterOperator.CONTAINS -> builder.like(filter.field() as Path<String>, "%${filter.value}%")
+			FilterOperator.NOT_CONTAINS -> builder.notLike(filter.field() as Path<String>, "%${filter.value}%")
 			else -> null
 		}
 	}
