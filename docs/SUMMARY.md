@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Introduccion](README.md)
-* [Primeros pasos](primeros-pasos/README.md)
-  * [MongoDB](primeros-pasos/mongodb.md)
-  * [Spring Data JPA](primeros-pasos/spring-data-jpa.md)
+* [Introduction](README.md)
+* [Getting started](getting-started/README.md)
+  * [MongoDB](getting-started/mongodb.md)
+  * [Spring Data JPA](getting-started/spring-data-jpa.md)

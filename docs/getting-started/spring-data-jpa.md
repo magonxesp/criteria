@@ -1,6 +1,6 @@
 # Spring Data JPA
 
-Suppose you have the book Entity using Spring Boot Data JPA.
+Suppose you have the Book entity using Spring Boot Data JPA.
 
 <pre class="language-kotlin"><code class="lang-kotlin"><strong>@Entity
 </strong><strong>class Book(
@@ -24,7 +24,7 @@ val criteria = Criteria(
 
 This instance of the Criteria class will filter by books with title that contains the "Kotlin" word and by the author "Svetlana Isakova"
 
-For perform a query using this criteria you will need to to implement on our JPA Repository the `JpaSpecificationExecutor<T>` interface for allow to execute queries through the spring `Specification<T>` interface.
+To perform a query using this criteria you will need to implement on our JPA Repository the `JpaSpecificationExecutor<T>` interface for allow to execute queries through the spring `Specification<T>` interface.
 
 ```kotlin
 @Repository
@@ -100,4 +100,16 @@ val result = adapter.apply(criteria, bookRepository) {
     )
 }
 // The result variable contains the collection of filtered Book instances
+```
+
+If you have a `FieldMap` you can add it into the `CriteriaJPASpecificationAdapter` constructor.
+
+```kotlin
+val fieldMap = mapOf(
+    // this will indicate the field author_name points to author.name related field
+    "author_name" to "author.name"
+)
+// ...
+val adapter = CriteriaJPASpecificationAdapter(fieldMap)
+val result = adapter.apply(criteria, bookRepository)
 ```
