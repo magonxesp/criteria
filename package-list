@@ -1,0 +1,11 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+
+module:core
+io.github.magonxesp.criteria.domain
+io.github.magonxesp.criteria.infrastructure
+io.github.magonxesp.criteria.infrastructure.mongodb
+io.github.magonxesp.criteria.infrastructure.serialization
+module:spring-boot
+io.github.magonxesp.criteria.infrastructure.jpa
+io.github.magonxesp.criteria.infrastructure.spring
