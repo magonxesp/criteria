@@ -1,22 +1,24 @@
-# Introduccion
+# Introduction
 
-El patron Criteria es un patron de diseño que nos ayuda a desacoplarnos de las consultas que hacemos en los motores de base de datos, drivers o librerias.
+The Criteria design pattern helps us to maintain a single form to perform search queries on our database.
 
-Esta implementacion del Criteria dispone de las siguientes implementaciones:
+It helps to implement the repository design pattern, avoiding creating a bunch of methods to create the same query with different filters.
+
+This implementation is adapted for the following drivers or ORMs:
 
 * [Koltin coroutine MongoDB driver](https://www.mongodb.com/docs/drivers/kotlin/coroutine/current/)
 * [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
 
-### Instalacion
+### Instalation
 
-Añade la dependencia del artefacto `criteria-core` en tu `build.gradle.kts`
+Add the `criteria-core` dependency on your `build.gradle.kts`.
 
 ```kotlin
-implementation("io.github.magonxesp:criteria-core:0.0.3")
+implementation("io.github.magonxesp:criteria-core:0.1.0")
 ```
 
-Si usas **Spring Boot** y **Spring Data JPA** tienes que añadir a parte el artefacto de spring-boot
+For **Spring Boot and** **Spring Data JPA** add the spring-boot dependency.
 
 ```kotlin
-implementation("io.github.magonxesp:criteria-spring-boot:0.0.3")
+implementation("io.github.magonxesp:criteria-spring-boot:0.1.0")
 ```

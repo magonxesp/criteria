@@ -1,6 +1,8 @@
 # Criteria
 
-The Criteria design pattern implemented following the Hexagonal Architecture principles in Kotlin.
+The Criteria design pattern helps us to maintain a single form to perform search queries on our database.
+
+It helps to implement the repository design pattern, avoiding to create a bunch of methods to create the same query with different filters.
 
 ## Installation
 
@@ -12,14 +14,17 @@ dependencies {
 }
 ```
 
-## Usage
-
-Create a criteria adding filters and an order by.
-For example if we have a books database, and we have on the book table 
+For Spring Boot and Spring Data JPA add the spring-boot dependency.
 
 ```kotlin
-
+dependencies {
+    implementation("io.github.magonxesp:criteria-spring-boot:0.1.0")
+}
 ```
+
+## Usage
+
+[Read the docs](https://magonxesp.gitbook.io/criteria/).
 
 ## Development
 
