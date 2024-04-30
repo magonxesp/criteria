@@ -7,6 +7,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
 	id("com.vanniktech.maven.publish")
+	id("org.jetbrains.dokka")
 }
 
 group = "io.github.magonxesp"
