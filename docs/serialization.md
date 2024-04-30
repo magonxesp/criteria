@@ -8,7 +8,7 @@ There are many use cases:
 * Writing criteria to a file.
 * Saving criteria to the database.
 
-### Base 64
+### Base64
 
 The criteria can be serialized to Base64 format.
 
