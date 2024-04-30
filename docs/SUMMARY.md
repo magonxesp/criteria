@@ -4,3 +4,4 @@
 * [Getting started](getting-started/README.md)
   * [MongoDB](getting-started/mongodb.md)
   * [Spring Data JPA](getting-started/spring-data-jpa.md)
+* [Serialization](serialization.md)

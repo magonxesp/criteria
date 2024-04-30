@@ -2,7 +2,7 @@
 
 The Criteria design pattern helps us to maintain a single form to perform search queries on our database.
 
-It helps to implement the repository design pattern, avoiding to create a bunch of methods to create the same query with different filters.
+It helps to implement the repository design pattern, avoiding creating a bunch of methods to create the same query with different filters.
 
 This implementation is adapted for the following drivers or ORMs:
 
