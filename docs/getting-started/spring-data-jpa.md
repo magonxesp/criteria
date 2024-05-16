@@ -2,14 +2,15 @@
 
 Suppose you have the Book entity using Spring Boot Data JPA.
 
-<pre class="language-kotlin"><code class="lang-kotlin"><strong>@Entity
-</strong><strong>class Book(
-</strong><strong>    @Id
-</strong>    val id: Int,
+```kotlin
+@Entity
+class Book(
+    @Id
+    val id: Int,
     val title: String,
     val author: String
 )
-</code></pre>
+```
 
 And you need to filter by the author and the title. You can create an instance of the Criteria class and define the filters with the values.
 
