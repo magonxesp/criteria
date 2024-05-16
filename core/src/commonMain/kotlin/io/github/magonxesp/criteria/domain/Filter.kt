@@ -1,6 +1,6 @@
 package io.github.magonxesp.criteria.domain
 
-class Filter(
+data class Filter(
 	/**
 	 * The field name corresponds to the field name of the table database in case of relational databases or the field name
 	 * on a document in case of no sql databases.

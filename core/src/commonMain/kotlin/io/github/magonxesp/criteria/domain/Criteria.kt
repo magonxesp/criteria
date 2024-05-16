@@ -1,7 +1,7 @@
 package io.github.magonxesp.criteria.domain
 
 
-class Criteria(
+data class Criteria(
 	/**
 	 * The filters list, for now they are chained with the "and" condition.
 	 */

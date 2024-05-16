@@ -1,6 +1,6 @@
 package io.github.magonxesp.criteria.domain
 
-class Pagination(
+data class Pagination(
     val page: Int = 1,
     val size: Int? = 25
 ) {
