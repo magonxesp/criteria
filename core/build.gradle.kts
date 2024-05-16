@@ -8,6 +8,7 @@ plugins {
     kotlin("plugin.serialization")
 	id("com.vanniktech.maven.publish")
 	id("org.jetbrains.dokka")
+	id("io.kotest.multiplatform")
 }
 
 group = "io.github.magonxesp"
@@ -54,6 +55,11 @@ android {
 		sourceCompatibility = JavaVersion.VERSION_1_8
 		targetCompatibility = JavaVersion.VERSION_1_8
 	}
+	testOptions {
+		unitTests.all {
+			it.useJUnitPlatform()
+		}
+	}
 }
 
 kotlin {
@@ -73,7 +79,9 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation("io.mockk:mockk:1.13.8")
                 implementation("io.github.serpro69:kotlin-faker:1.15.0")
-                implementation("io.kotest:kotest-runner-junit5:5.8.0")
+                implementation("io.kotest:kotest-framework-engine:5.8.0")
+				implementation("org.slf4j:slf4j-api:2.0.13")
+				implementation("org.slf4j:slf4j-simple:2.0.13")
             }
         }
         jvmMain {
@@ -82,6 +90,15 @@ kotlin {
                 implementation("org.mongodb:bson-kotlinx:5.0.0")
             }
         }
+		jvmTest {
+			dependencies {
+				implementation("io.kotest:kotest-runner-junit5:5.8.0")
+				implementation("io.github.serpro69:kotlin-faker:1.15.0")
+				implementation("org.testcontainers:testcontainers:1.19.7")
+				implementation("org.testcontainers:mongodb:1.19.7")
+			}
+		}
+
     }
 }
 

@@ -16,7 +16,7 @@ class CriteriaBuilder(
 	/**
 	 * Add a filter, for now all filters are chained with the "and" condition.
 	 */
-	fun filter(field: String, value: Any, operator: FilterOperator) {
+	fun filter(field: String, value: Any, operator: FilterOperator = FilterOperator.EQUALS) {
 		filters.add(Filter(field, value, operator))
 	}
 
