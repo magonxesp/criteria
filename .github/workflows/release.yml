@@ -28,7 +28,7 @@ jobs:
 
       - name: Export variable
         shell: bash
-        run: export HELLO_WORLD="Hello"
+        run: echo 'HELLO_WORLD="Hello"' >> $GITHUB_ENV
 
       - name: Show variable
         shell: bash
