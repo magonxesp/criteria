@@ -17,11 +17,14 @@ jobs:
         uses: orhun/git-cliff-action@v3
         with:
           config: cliff.toml
-          args: --latest -o current-version.md
+          args: --latest
+        env:
+          OUTPUT: current.md
+          GITHUB_REPO: ${{ github.repository }}
 
       - name: Show current changelog
         shell: bash
-        run: cat current-version.md
+        run: cat current.md
 
 #      - uses: graalvm/setup-graalvm@v1
 #        with:
