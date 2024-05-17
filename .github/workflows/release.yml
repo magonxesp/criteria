@@ -1,0 +1,41 @@
+name: Build release
+permissions:
+  contents: write
+on:
+  workflow_dispatch:
+#  push:
+#    tags-ignore:
+#      - '*-alpha.*'
+#      - '*-beta.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate a changelog
+        uses: orhun/git-cliff-action@v3
+        with:
+          config: cliff.toml
+          args: --latest -o current-version.md
+
+      - name: Show current changelog
+        shell: bash
+        run: cat current-version.md
+
+#      - uses: graalvm/setup-graalvm@v1
+#        with:
+#          java-version: '21'
+#          distribution: 'graalvm'
+#          cache: 'gradle'
+#
+#      - name: Setup Gradle
+#        uses: gradle/actions/setup-gradle@v3
+#
+#      - name: Compile native executable
+#        run: ./gradlew nativeCompile
+#
+#      - uses: ncipollo/release-action@v1
+#        with:
+#          artifacts: 'build/native/nativeCompile/cloudflareddns'
+#          bodyFile: 'current-version.md'
