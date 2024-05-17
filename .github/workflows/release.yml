@@ -26,6 +26,14 @@ jobs:
         shell: bash
         run: cat current.md
 
+      - name: Export variable
+        shell: bash
+        run: export HELLO_WORLD="Hello"
+
+      - name: Show variable
+        shell: bash
+        run: echo $HELLO_WORLD
+
 #      - uses: graalvm/setup-graalvm@v1
 #        with:
 #          java-version: '21'
