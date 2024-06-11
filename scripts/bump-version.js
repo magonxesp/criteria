@@ -1,5 +1,5 @@
 import { exec, OutputMode } from "https://deno.land/x/exec/mod.ts"
-import { replaceVersion } from "./helpers"
+import { replaceVersion } from "./helpers.js"
 
 const context = JSON.parse(
     (await exec('git cliff --unreleased --bump --context', { output: OutputMode.Capture })).output

@@ -1,5 +1,5 @@
 import { parseArgs } from "https://deno.land/std@0.224.0/cli/mod.ts"
-import { replaceVersion } from "./helpers"
+import { replaceVersion } from "./helpers.js"
 
 const args = parseArgs(Deno.args)
 const version = args.version
