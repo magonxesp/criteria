@@ -1,4 +1,5 @@
 import { exec, OutputMode } from "https://deno.land/x/exec/mod.ts"
+import { replaceVersion } from "./helpers"
 
 const context = JSON.parse(
     (await exec('git cliff --unreleased --bump --context', { output: OutputMode.Capture })).output
@@ -13,19 +14,6 @@ if (version == null) {
 console.info(`The new version is ${version}`)
 
 await exec('git cliff --bump -o CHANGELOG.md')
-
-/**
- * Replace a file content by a regexp
- * 
- * @param {string} file 
- * @param {RegExp} searchRegex 
- * @param {(string[]) => string} newStringCallback 
- */
-function replaceVersion (file, searchRegex, newString) {
-    const content = Deno.readTextFileSync(file)
-    const newContent = content.replaceAll(searchRegex, newString)
-    Deno.writeTextFileSync(file, newContent)
-}
 
 [
     'core/build.gradle.kts',

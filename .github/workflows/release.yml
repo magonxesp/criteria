@@ -12,9 +12,31 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Install Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      
+      - name: Add deno packages
+        run: deno add @std/cli
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+  
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+  
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: 11076708 # Android 13
+
       - uses: actions/checkout@v4
         with:
             fetch-depth: 0
+
       - name: Generate a changelog
         uses: orhun/git-cliff-action@main
         id: git-cliff
@@ -28,27 +50,17 @@ jobs:
         shell: bash
         run: cat CHANGES.md
 
-      - name: Export variable
-        shell: bash
-        run: echo 'HELLO_WORLD="Hello"' >> $GITHUB_ENV
+      - name: Replace build.gradle versions to current tag
+        run: deno run --allow-run --allow-write --allow-read scripts/replace-gradle-version.js --version=${{ github.ref_name }}
 
-      - name: Show variable
-        shell: bash
-        run: echo $HELLO_WORLD
+      - name: Build libraries
+        run: ./gradlew build
+      
+      - name: Publish to maven central
+        run: ./gradlew publishAndReleaseToMavenCentral
 
-#      - uses: graalvm/setup-graalvm@v1
-#        with:
-#          java-version: '21'
-#          distribution: 'graalvm'
-#          cache: 'gradle'
-#
-#      - name: Setup Gradle
-#        uses: gradle/actions/setup-gradle@v3
-#
-#      - name: Compile native executable
-#        run: ./gradlew nativeCompile
-#
-#      - uses: ncipollo/release-action@v1
-#        with:
-#          artifacts: 'build/native/nativeCompile/cloudflareddns'
-#          bodyFile: 'current-version.md'
+      - uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.ref_name }}
+          artifacts: 'core/build/libs/core-jvm.*.jar,core/build/outputs/aar/*.aar,spring-boot/build/libs/spring-boot-*.jar'
+          bodyFile: 'CHANGES.md'
