@@ -2,12 +2,7 @@ name: Build release
 permissions:
   contents: write
 on:
-  workflow_dispatch:
-    tags:
-      - 'v*.*.*'
   push:
-    tags:
-      - 'v*.*.*'
     tags-ignore:
       - '*-alpha.*'
       - '*-beta.*'
