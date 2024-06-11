@@ -3,9 +3,11 @@ permissions:
   contents: write
 on:
   workflow_dispatch:
-    branches-ignore:
-      - '*'
+    tags:
+      - 'v*.*.*'
   push:
+    tags:
+      - 'v*.*.*'
     tags-ignore:
       - '*-alpha.*'
       - '*-beta.*'
