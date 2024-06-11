@@ -20,7 +20,6 @@ jobs:
           args: --latest
         env:
           OUTPUT: current.md
-          GITHUB_REPO: ${{ github.repository }}
 
       - name: Show current changelog
         shell: bash
