@@ -13,12 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
       - name: Generate a changelog
         uses: orhun/git-cliff-action@main
         id: git-cliff
         with:
           config: cliff.toml
-          args: -vv --latest --no-exec --github-repo ${{ github.repository }}
+          args: --latest --no-exec --github-repo ${{ github.repository }}
         env:
           OUTPUT: CHANGES.md
 
