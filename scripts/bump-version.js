@@ -15,10 +15,12 @@ console.info(`The new version is ${version}`)
 
 await exec('git cliff --bump -o CHANGELOG.md')
 
-[
+const buildGradleFiles = [
     'core/build.gradle.kts',
     'spring-boot/build.gradle.kts',
-].forEach((file) => replaceVersion(
+]
+
+buildGradleFiles.forEach((file) => replaceVersion(
     file,
     /version = \"v?[0-9.]+\.?[a-z]*\.?[0-9]*\"/g, 
     `version = \"${version.replace(/^v/, '')}\"`,
