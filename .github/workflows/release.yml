@@ -14,16 +14,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Generate a changelog
-        uses: orhun/git-cliff-action@v3
+        uses: orhun/git-cliff-action@main
+        id: git-cliff
         with:
           config: cliff.toml
-          args: --latest
+          args: -vv --latest --no-exec --github-repo ${{ github.repository }}
         env:
-          OUTPUT: current.md
+          OUTPUT: CHANGES.md
 
       - name: Show current changelog
         shell: bash
-        run: cat current.md
+        run: cat CHANGES.md
 
       - name: Export variable
         shell: bash
