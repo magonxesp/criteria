@@ -16,9 +16,6 @@ jobs:
         uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
-      
-      - name: Add deno packages
-        run: deno add @std/cli
 
       - uses: actions/setup-java@v4
         with:
