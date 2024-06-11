@@ -3,10 +3,12 @@ permissions:
   contents: write
 on:
   workflow_dispatch:
-#  push:
-#    tags-ignore:
-#      - '*-alpha.*'
-#      - '*-beta.*'
+    branches-ignore:
+      - '*'
+  push:
+    tags-ignore:
+      - '*-alpha.*'
+      - '*-beta.*'
 
 jobs:
   build:
@@ -65,5 +67,5 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           tag: ${{ github.ref_name }}
-          artifacts: 'core/build/libs/core-jvm.*.jar,core/build/outputs/aar/*.aar,spring-boot/build/libs/spring-boot-*.jar'
+          artifacts: 'core/build/libs/*.jar,core/build/outputs/aar/*.aar,spring-boot/build/libs/spring-boot-*.jar'
           bodyFile: 'CHANGES.md'
