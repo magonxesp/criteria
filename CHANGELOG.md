@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.1] - 2024-06-17
+
+### Miscellaneous Tasks
+
+- Fix release wokflow
+
 ## [0.2.0] - 2024-06-17
 
 ### Bug Fixes
