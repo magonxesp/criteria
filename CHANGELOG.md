@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.7] - 2024-06-17
+
+### Miscellaneous Tasks
+
+- Disable parallel builds
+
 ## [0.2.6] - 2024-06-17
 
 ### Miscellaneous Tasks
