@@ -42,18 +42,17 @@ jobs:
         env:
           OUTPUT: CHANGES.md
 
-      - name: Show current changelog
-        shell: bash
-        run: cat CHANGES.md
-
       - name: Replace build.gradle versions to current tag
         run: deno run --allow-run --allow-write --allow-read scripts/replace-gradle-version.js --version=${{ github.ref_name }}
 
       - name: Build libraries
         run: ./gradlew build
 
+      - name: Build javadoc
+        run: ./gradlew dokkaJavadocJar -x build
+
       - name: Publish to maven central
-        run: ./gradlew publishAndReleaseToMavenCentral -x build -x dokkaJavadocJar -x dokkaHtml
+        run: ./gradlew publishAndReleaseToMavenCentral -x build -x dokkaJavadocJar
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
