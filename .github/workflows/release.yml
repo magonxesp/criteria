@@ -48,11 +48,8 @@ jobs:
       - name: Build libraries
         run: ./gradlew build
 
-      - name: Build javadoc
-        run: ./gradlew dokkaJavadocJar -x build
-
       - name: Publish to maven central
-        run: ./gradlew publishAndReleaseToMavenCentral -x build -x dokkaJavadocJar
+        run: ./gradlew publishAndReleaseToMavenCentral
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
