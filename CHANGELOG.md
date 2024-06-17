@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.8] - 2024-06-17
+
+### Miscellaneous Tasks
+
+- No cache build configurations
+
 ## [0.2.7] - 2024-06-17
 
 ### Miscellaneous Tasks
