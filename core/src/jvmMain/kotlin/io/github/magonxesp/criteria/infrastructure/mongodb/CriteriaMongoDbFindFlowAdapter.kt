@@ -19,7 +19,7 @@ class CriteriaMongoDbFindFlowAdapter(private val fieldMap: FieldMap = mapOf()) {
         }
 
         if (criteria.pagination.size != null) {
-            findFlow.skip(criteria.pagination.page - 1 * criteria.pagination.size)
+            findFlow.skip((criteria.pagination.page - 1) * criteria.pagination.size)
             findFlow.limit(criteria.pagination.size)
         }
     }
