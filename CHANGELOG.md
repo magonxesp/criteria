@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.4] - 2024-06-17
+
+### Miscellaneous Tasks
+
+- Ignore dokka tasks
+
 ## [0.2.3] - 2024-06-17
 
 ### Miscellaneous Tasks
