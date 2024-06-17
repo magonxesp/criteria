@@ -1,5 +1,43 @@
 # Changelog
 
+## [0.2.0] - 2024-06-17
+
+### Bug Fixes
+
+- Contains and not contains operator in FilterScalarPredicateAdapter
+- Expected expression
+- Deno parseArgs import
+- Relative import
+- Paged results on mongodb adapter
+
+### Features
+
+- Support make joins on CriteriaJPASpecificationAdapter
+- Add logging level debug for show sql executed by hibernate
+- Allow modify an existing criteria
+- Convert to data class the Criteria class
+
+### Miscellaneous Tasks
+
+- Deploy reference docs
+- Create release workflow
+- Create release workflow
+- Ci release
+- Ci release
+- Ci release
+- Ci release
+- Ci release
+- Release to maven central
+- Set publish env variables
+- Test
+- Fix release action
+- Prevent make release of main branch
+- Dispatch only on tag
+
+### Testing
+
+- Test all operators in mongodb
+
 ## [0.1.0] - 2024-04-20
 
 ### Features
