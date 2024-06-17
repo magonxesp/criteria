@@ -3,7 +3,10 @@ package io.github.magonxesp.criteria.infrastructure.serialization
 import io.github.magonxesp.criteria.domain.Filter
 import io.github.magonxesp.criteria.domain.FilterOperator
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*
+import kotlin.io.encoding.Base64
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 @Serializable
 class SerializableFilter(
@@ -47,3 +50,18 @@ fun Filter.toSerializableFilter() = SerializableFilter(
     value = value.toJsonElement(),
     operator = operator.operator
 )
+
+private val json = Json { ignoreUnknownKeys = true }
+
+fun List<Filter>.serializeToJson() = json.encodeToString(map { it.toSerializableFilter() })
+fun String.deserializeFiltersFromJson() = json.decodeFromString<List<SerializableFilter>>(this)
+	.map { it.toFilter() }
+
+@OptIn(ExperimentalEncodingApi::class)
+fun List<Filter>.encodeToBase64() = Base64.encode(serializeToJson().toByteArray())
+
+@OptIn(ExperimentalEncodingApi::class)
+fun String.decodeFiltersFromBase64() =
+	Base64.decode(this)
+		.decodeToString()
+		.deserializeFiltersFromJson()
