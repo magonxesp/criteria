@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.6] - 2024-06-17
+
+### Miscellaneous Tasks
+
+- Up gradle heap and metaspace
+
 ## [0.2.5] - 2024-06-17
 
 ### Miscellaneous Tasks
