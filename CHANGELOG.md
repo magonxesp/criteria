@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.5] - 2024-06-17
+
+### Miscellaneous Tasks
+
+- Build javadoc in other task
+
 ## [0.2.4] - 2024-06-17
 
 ### Miscellaneous Tasks
