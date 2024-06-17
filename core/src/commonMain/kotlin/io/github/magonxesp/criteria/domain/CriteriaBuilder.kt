@@ -1,8 +1,8 @@
 package io.github.magonxesp.criteria.domain
 
 class CriteriaBuilder(
-	private val filters: MutableList<Filter> = mutableListOf(),
-	private val orderBy: MutableList<OrderBy> = mutableListOf(),
+	private var filters: MutableList<Filter> = mutableListOf(),
+	private var orderBy: MutableList<OrderBy> = mutableListOf(),
 	var page: Int = 1,
 	var pageSize: Int? = null
 ) {
@@ -20,11 +20,19 @@ class CriteriaBuilder(
 		filters.add(Filter(field, value, operator))
 	}
 
+	fun setFilters(filters: List<Filter>) {
+		this.filters = filters.toMutableList()
+	}
+
 	/**
 	 * Add an order by sentence
 	 */
 	fun orderBy(field: String, order: Order) {
 		orderBy.add(OrderBy(field, order))
+	}
+
+	fun setOrderBy(orderBy: List<OrderBy>) {
+		this.orderBy = orderBy.toMutableList()
 	}
 
 	fun build() = Criteria(filters, orderBy, Pagination(page, pageSize))
