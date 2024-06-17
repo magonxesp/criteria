@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0] - 2024-06-17
+
+### Features
+
+- Serialize to base64 filters and order by
+- Add set order by and set filters to CriteriaBuilder
+
 ## [0.2.8] - 2024-06-17
 
 ### Miscellaneous Tasks
