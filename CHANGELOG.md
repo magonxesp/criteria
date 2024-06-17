@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.2] - 2024-06-17
+
+### Miscellaneous Tasks
+
+- Ignore build and dokka when publish
+
 ## [0.2.1] - 2024-06-17
 
 ### Miscellaneous Tasks
