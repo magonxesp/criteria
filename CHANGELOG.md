@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.0] - 2024-06-26
+
+### Features
+
+- Add replace filter extension function
+
 ## [0.3.0] - 2024-06-17
 
 ### Features
