@@ -2,7 +2,7 @@ package io.github.magonxesp.criteria.infrastructure.jpa
 
 import io.github.magonxesp.criteria.domain.Filter
 import io.github.magonxesp.criteria.domain.FilterOperator
-import io.github.magonxesp.criteria.infrastructure.FieldMap
+import io.github.magonxesp.criteria.infrastructure.map.FieldMap
 import jakarta.persistence.criteria.CriteriaBuilder
 import jakarta.persistence.criteria.Path
 import jakarta.persistence.criteria.Predicate
@@ -10,10 +10,10 @@ import jakarta.persistence.criteria.Root
 import java.time.Instant
 
 class FilterScalarPredicateAdapter(
-	root: Root<*>,
-	builder: CriteriaBuilder,
-	fieldMap: FieldMap = mapOf(),
-	joinMap: JoinMap = mapOf()
+    root: Root<*>,
+    builder: CriteriaBuilder,
+    fieldMap: FieldMap,
+    joinMap: JoinMap
 ) : JpaAdapter(root, builder, joinMap, fieldMap) {
 
 	fun numberPredicate(filter: Filter): Predicate? {

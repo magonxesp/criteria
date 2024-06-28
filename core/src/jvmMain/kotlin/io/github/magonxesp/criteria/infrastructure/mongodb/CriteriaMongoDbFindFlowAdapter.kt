@@ -3,9 +3,10 @@ package io.github.magonxesp.criteria.infrastructure.mongodb
 import com.mongodb.client.model.Filters.and
 import com.mongodb.kotlin.client.coroutine.FindFlow
 import io.github.magonxesp.criteria.domain.Criteria
-import io.github.magonxesp.criteria.infrastructure.FieldMap
+import io.github.magonxesp.criteria.infrastructure.map.DefaultFieldMap
+import io.github.magonxesp.criteria.infrastructure.map.FieldMap
 
-class CriteriaMongoDbFindFlowAdapter(private val fieldMap: FieldMap = mapOf()) {
+class CriteriaMongoDbFindFlowAdapter(private val fieldMap: FieldMap = DefaultFieldMap()) {
     fun <T : Any> apply(criteria: Criteria, findFlow: FindFlow<T>) {
         val filterMapper = FilterBsonAdapter(fieldMap)
         val orderMapper = OrderByBsonAdapter(fieldMap)

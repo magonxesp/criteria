@@ -1,16 +1,15 @@
 package io.github.magonxesp.criteria.infrastructure.jpa
 
 import io.github.magonxesp.criteria.domain.OrderBy
-import io.github.magonxesp.criteria.infrastructure.Adapter
-import io.github.magonxesp.criteria.infrastructure.FieldMap
+import io.github.magonxesp.criteria.infrastructure.map.FieldMap
 import jakarta.persistence.criteria.*
 import io.github.magonxesp.criteria.domain.Order as DomainOrder
 
 class OrderByJpaOrderAdapter(
     root: Root<*>,
     builder: CriteriaBuilder,
-    fieldMap: FieldMap = mapOf(),
-	joinMap: JoinMap = mapOf()
+    fieldMap: FieldMap,
+    joinMap: JoinMap
 ) : JpaAdapter(root, builder, joinMap, fieldMap) {
     private fun OrderBy.toOrder(): Order =
         if (order == DomainOrder.ASC) {
