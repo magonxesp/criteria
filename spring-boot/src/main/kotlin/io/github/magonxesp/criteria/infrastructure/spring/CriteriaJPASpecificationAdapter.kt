@@ -2,10 +2,11 @@ package io.github.magonxesp.criteria.infrastructure.spring
 
 import io.github.magonxesp.criteria.domain.Criteria
 import io.github.magonxesp.criteria.domain.PaginatedCollection
-import io.github.magonxesp.criteria.infrastructure.FieldMap
+import io.github.magonxesp.criteria.infrastructure.map.FieldMap
 import io.github.magonxesp.criteria.infrastructure.jpa.FiltersJpaPredicateAdapter
 import io.github.magonxesp.criteria.infrastructure.jpa.JoinMap
 import io.github.magonxesp.criteria.infrastructure.jpa.OrderByJpaOrderAdapter
+import io.github.magonxesp.criteria.infrastructure.map.DefaultFieldMap
 import jakarta.persistence.criteria.Root
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
@@ -13,7 +14,7 @@ import org.springframework.data.jpa.domain.Specification
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 
 class CriteriaJPASpecificationAdapter(
-	private val fieldMap: FieldMap = mapOf(),
+    private val fieldMap: FieldMap = DefaultFieldMap(),
 ) {
     fun <T> adapt(
 		criteria: Criteria,

@@ -12,11 +12,12 @@ import com.mongodb.client.model.Filters.`in`
 import io.github.magonxesp.criteria.domain.Filter
 import io.github.magonxesp.criteria.domain.FilterOperator
 import io.github.magonxesp.criteria.infrastructure.Adapter
-import io.github.magonxesp.criteria.infrastructure.FieldMap
+import io.github.magonxesp.criteria.infrastructure.map.DefaultFieldMap
+import io.github.magonxesp.criteria.infrastructure.map.FieldMap
 import org.bson.conversions.Bson
 import kotlinx.datetime.Instant
 
-class FilterBsonAdapter(fieldMap: FieldMap = mapOf()) : Adapter(fieldMap) {
+class FilterBsonAdapter(fieldMap: FieldMap) : Adapter(fieldMap) {
     private fun Filter.numberBson(): Bson? {
         if (value !is Number) {
             return null
