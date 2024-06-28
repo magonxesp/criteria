@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.1] - 2024-06-28
+
+### Breaking Changes
+
+- Replace field maps by DefaultFieldMap or StrictFieldMap instead of regular map
+
 ## [0.4.0] - 2024-06-26
 
 ### Features
