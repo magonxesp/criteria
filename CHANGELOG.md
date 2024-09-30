@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.0] - 2024-09-30
+
+### Features
+
+- Add toColumn infix function
+
 ## [1.1.1] - 2024-09-30
 
 ### Miscellaneous Tasks
