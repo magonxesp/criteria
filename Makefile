@@ -1,7 +1,10 @@
-.PHONY: bump-version publish publish-local
+.PHONY: bump-first-version bump-version publish publish-local
+
+first-version:
+	@PYTHONPATH="$$(pwd)/scripts" python scripts/bump-version.py --first-version
 
 bump-version:
-	@deno run --allow-run --allow-write --allow-read scripts/bump-version.js
+	@PYTHONPATH="$$(pwd)/scripts" python scripts/bump-version.py
 
 publish:
 	@./gradlew publishAndReleaseToMavenCentral
