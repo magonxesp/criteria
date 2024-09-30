@@ -6,7 +6,6 @@ import com.mongodb.kotlin.client.coroutine.MongoDatabase
 import io.github.magonxesp.criteria.IntegrationTestCase
 import io.github.magonxesp.criteria.domain.FilterOperator
 import io.github.magonxesp.criteria.domain.criteria
-import io.github.magonxesp.criteria.infrastructure.mongodb.documents.BookDocument
 import io.github.magonxesp.criteria.random
 import io.kotest.common.runBlocking
 import io.kotest.matchers.collections.shouldContain

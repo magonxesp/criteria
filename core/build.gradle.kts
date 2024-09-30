@@ -86,16 +86,30 @@ kotlin {
         }
         jvmMain {
             dependencies {
-                implementation("org.mongodb:mongodb-driver-kotlin-coroutine:5.0.0")
-                implementation("org.mongodb:bson-kotlinx:5.0.0")
+				val mongodbVersion = "5.0.0"
+				val exposedVersion = "0.55.0"
+
+                implementation("org.mongodb:mongodb-driver-kotlin-coroutine:$mongodbVersion")
+                implementation("org.mongodb:bson-kotlinx:$mongodbVersion")
+				implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+				implementation("org.jetbrains.exposed:exposed-crypt:$exposedVersion")
+				implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
+				implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+				implementation("org.jetbrains.exposed:exposed-kotlin-datetime:$exposedVersion")
+				implementation("org.jetbrains.exposed:exposed-json:$exposedVersion")
+				implementation("org.jetbrains.exposed:exposed-money:$exposedVersion")
+				implementation("org.postgresql:postgresql:42.7.1")
             }
         }
 		jvmTest {
 			dependencies {
+				val testContainersVersion = "1.19.7"
+
 				implementation("io.kotest:kotest-runner-junit5:5.8.0")
 				implementation("io.github.serpro69:kotlin-faker:1.15.0")
-				implementation("org.testcontainers:testcontainers:1.19.7")
-				implementation("org.testcontainers:mongodb:1.19.7")
+				implementation("org.testcontainers:testcontainers:$testContainersVersion")
+				implementation("org.testcontainers:mongodb:$testContainersVersion")
+				implementation("org.testcontainers:postgresql:$testContainersVersion")
 			}
 		}
 
