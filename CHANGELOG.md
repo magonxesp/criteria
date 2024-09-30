@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0] - 2024-09-30
+
+### Features
+
+- Support jetbrains exposed
+- Test postgresql and mariadb with exposed
+- Update scripts
+
+### Testing
+
+- Sort predicate
+- Disable mariadb tests
+
 ## [1.0.0] - 2024-06-28
 
 ### Features
@@ -99,6 +112,7 @@
 - Test
 - Fix release action
 - Prevent make release of main branch
+- Dispatch only on tag
 - Dispatch only on tag
 
 ### Testing
