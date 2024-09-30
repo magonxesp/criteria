@@ -3,6 +3,7 @@ package io.github.magonxesp.criteria.infrastructure
 import io.github.magonxesp.criteria.*
 import io.github.magonxesp.criteria.domain.FilterOperator
 import io.github.magonxesp.criteria.domain.criteria
+import io.github.magonxesp.criteria.infrastructure.map.fieldMapOf
 import io.github.magonxesp.criteria.infrastructure.spring.CriteriaJPASpecificationAdapter
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldContainAll
@@ -27,7 +28,7 @@ class CriteriaJPASpecificationAdapterTest : SpringBootTestCase() {
 			filter("authorName", author.name, FilterOperator.EQUALS)
 		}
 
-		val fieldMap = mapOf(
+		val fieldMap = fieldMapOf(
 			"authorName" to "author.name",
 		)
 
@@ -55,7 +56,7 @@ class CriteriaJPASpecificationAdapterTest : SpringBootTestCase() {
 			filter("bookGenre", genre.genre, FilterOperator.EQUALS)
 		}
 
-		val fieldMap = mapOf(
+		val fieldMap = fieldMapOf(
 			"bookGenre" to "genres.genre",
 		)
 

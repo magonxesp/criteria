@@ -11,6 +11,7 @@ import io.github.magonxesp.criteria.random
 import io.kotest.common.runBlocking
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldNotContain
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.toList
 import java.util.UUID
 import kotlin.random.Random
@@ -356,5 +357,42 @@ class CriteriaMongoDbFindFlowAdapterTest : IntegrationTestCase() {
 
 		result shouldContain books.first()
 		result shouldContain books.last()
+	}
+
+	@Test
+	suspend fun `it should return paged results`() {
+		val criteria = criteria {
+			page = 1
+			pageSize = 2
+		}
+
+		val findFlow = collection.find()
+		CriteriaMongoDbFindFlowAdapter().apply(criteria, findFlow)
+
+		val result = findFlow.toList()
+		val expectedPage = books.slice(0..1)
+
+		result.size shouldBe 2
+		result shouldBe expectedPage
+	}
+
+	@Test
+	suspend fun `it should return paged results and return next page items`() {
+		for (page in 2..5) {
+			val criteria = criteria {
+				this.page = page
+				this.pageSize = 2
+			}
+
+			val findFlow = collection.find()
+			CriteriaMongoDbFindFlowAdapter().apply(criteria, findFlow)
+
+			val result = findFlow.toList()
+			val offset = (page - 1) * 2
+			val expectedPage = books.slice(offset..offset + 1)
+
+			result.size shouldBe 2
+			result shouldBe expectedPage
+		}
 	}
 }

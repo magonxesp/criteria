@@ -42,10 +42,6 @@ jobs:
         env:
           OUTPUT: CHANGES.md
 
-      - name: Show current changelog
-        shell: bash
-        run: cat CHANGES.md
-
       - name: Replace build.gradle versions to current tag
         run: deno run --allow-run --allow-write --allow-read scripts/replace-gradle-version.js --version=${{ github.ref_name }}
 

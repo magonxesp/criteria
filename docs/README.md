@@ -14,11 +14,11 @@ This implementation is adapted for the following drivers or ORMs:
 Add the `criteria-core` dependency on your `build.gradle.kts`.
 
 ```kotlin
-implementation("io.github.magonxesp:criteria-core:0.1.0")
+implementation("io.github.magonxesp:criteria-core:0.2.8")
 ```
 
 For **Spring Boot and** **Spring Data JPA** add the spring-boot dependency.
 
 ```kotlin
-implementation("io.github.magonxesp:criteria-spring-boot:0.1.0")
+implementation("io.github.magonxesp:criteria-spring-boot:0.2.8")
 ```
