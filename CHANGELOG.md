@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.1] - 2024-09-30
+
+### Miscellaneous Tasks
+
+- Fix replace version step
+
 ## [1.1.0] - 2024-09-30
 
 ### Features
