@@ -4,6 +4,8 @@ $dokka.linkExtension:html
 module:core
 io.github.magonxesp.criteria.domain
 io.github.magonxesp.criteria.infrastructure
+io.github.magonxesp.criteria.infrastructure.exposed
+io.github.magonxesp.criteria.infrastructure.map
 io.github.magonxesp.criteria.infrastructure.mongodb
 io.github.magonxesp.criteria.infrastructure.serialization
 module:spring-boot
