@@ -17,7 +17,9 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 import kotlin.random.Random
 
-class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
+abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
+	lateinit var db: Database
+
 	val books = (0..50).map {
 		BookEntity(
 			id = UUID.randomUUID().toString(),
@@ -31,18 +33,14 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	val book = books.first()
 
 	override fun onContainersStart(): Unit = runBlocking {
-		Database.connect(
-			postgresql.getJdbcUrl(),
-			driver = "org.postgresql.Driver",
-			user = postgresql.username,
-			password = postgresql.password
-		)
-
-		transaction {
+		db = setupDatabaseConnection()
+		transaction(db) {
 			SchemaUtils.create(BookTable)
 			books.forEach { it.insert() }
 		}
 	}
+
+	abstract fun setupDatabaseConnection(): Database
 
 	private val columns = mapOf(
 		BookTable::id.name to BookTable.id as Column<Any>,
@@ -53,7 +51,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	)
 
 	@Test
-	fun `it should find by exact title`() = transaction {
+	fun `it should find by exact title`() = transaction(db) {
 		val criteria = criteria {
 			filter(BookDocument::title.name, book.title, FilterOperator.EQUALS)
 		}
@@ -67,7 +65,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should not find by exact title`() = transaction {
+	fun `it should not find by exact title`() = transaction(db) {
 		val criteria = criteria {
 			filter(BookDocument::title.name, book.title, FilterOperator.NOT_EQUALS)
 		}
@@ -81,7 +79,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should find by stock is more than`() = transaction {
+	fun `it should find by stock is more than`() = transaction(db) {
 		val criteria = criteria {
 			filter(BookDocument::stock.name, book.stock - 1, FilterOperator.GREATER_THAN)
 		}
@@ -95,7 +93,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should not find by stock is more than`() = transaction {
+	fun `it should not find by stock is more than`() = transaction(db) {
 		val criteria = criteria {
 			filter(BookDocument::stock.name, book.stock, FilterOperator.GREATER_THAN)
 		}
@@ -109,7 +107,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should find by stock is more than or equals`() = transaction {
+	fun `it should find by stock is more than or equals`() = transaction(db) {
 		val criteria = criteria {
 			filter(BookDocument::stock.name, book.stock, FilterOperator.GREATER_THAN_EQUALS)
 		}
@@ -123,7 +121,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should not find by stock is more than or equals`() = transaction {
+	fun `it should not find by stock is more than or equals`() = transaction(db) {
 		val criteria = criteria {
 			filter(BookDocument::stock.name, book.stock + 1, FilterOperator.GREATER_THAN_EQUALS)
 		}
@@ -138,7 +136,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 
 
 	@Test
-	fun `it should find by stock is less than`() = transaction {
+	fun `it should find by stock is less than`() = transaction(db) {
 		val criteria = criteria {
 			filter(BookDocument::stock.name, book.stock + 1, FilterOperator.LESS_THAN)
 		}
@@ -152,7 +150,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should not find by stock is less than`() = transaction {
+	fun `it should not find by stock is less than`() = transaction(db) {
 		val criteria = criteria {
 			filter(BookDocument::stock.name, book.stock, FilterOperator.LESS_THAN)
 		}
@@ -166,7 +164,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should find by stock is less than or equals`() = transaction {
+	fun `it should find by stock is less than or equals`() = transaction(db) {
 		val criteria = criteria {
 			filter(BookDocument::stock.name, book.stock, FilterOperator.LESS_THAN_EQUALS)
 		}
@@ -180,7 +178,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should not find by stock is less than or equals`() = transaction {
+	fun `it should not find by stock is less than or equals`() = transaction(db) {
 		val criteria = criteria {
 			filter(BookDocument::stock.name, book.stock - 1, FilterOperator.LESS_THAN_EQUALS)
 		}
@@ -194,9 +192,9 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should find by title contains`() = transaction {
+	fun `it should find by title contains`() = transaction(db) {
 		val fragment = book.title.split(" ").first()
-		
+
 		val criteria = criteria {
 			filter(BookDocument::title.name, fragment, FilterOperator.CONTAINS)
 		}
@@ -210,7 +208,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should not find by title contains`() = transaction {
+	fun `it should not find by title contains`() = transaction(db) {
 		val fragment = "noexistingtitle"
 
 		val criteria = criteria {
@@ -226,7 +224,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should find by title not contains`() = transaction {
+	fun `it should find by title not contains`() = transaction(db) {
 		val fragment = book.title.split(" ").first()
 
 		val criteria = criteria {
@@ -242,7 +240,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should not find by title not contains`() = transaction {
+	fun `it should not find by title not contains`() = transaction(db) {
 		val fragment = "noexistingtitle"
 
 		val criteria = criteria {
@@ -258,7 +256,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should find by title regex`() = transaction {
+	fun `it should find by title regex`() = transaction(db) {
 		val regex = ".*${book.title.split(" ").first()}.*"
 
 		val criteria = criteria {
@@ -274,7 +272,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should not find by title regex`() = transaction {
+	fun `it should not find by title regex`() = transaction(db) {
 		val regex = ".*noexitingbook.*"
 
 		val criteria = criteria {
@@ -290,7 +288,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should find by title contains in list`() = transaction {
+	fun `it should find by title contains in list`() = transaction(db) {
 		val titles = listOf(
 			books.first().title,
 			books.last().title
@@ -310,7 +308,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should not find by title contains in list`() = transaction {
+	fun `it should not find by title contains in list`() = transaction(db) {
 		val titles = listOf(
 			"noexistingbook1",
 			"noexistingbook2"
@@ -330,7 +328,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should find by title not contains in list`() = transaction {
+	fun `it should find by title not contains in list`() = transaction(db) {
 		val titles = listOf(
 			books.first().title,
 			books.last().title
@@ -350,7 +348,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should not find by title not contains in list`() = transaction {
+	fun `it should not find by title not contains in list`() = transaction(db) {
 		val titles = listOf(
 			"noexistingbook1",
 			"noexistingbook2"
@@ -370,7 +368,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should return paged results`() = transaction {
+	fun `it should return paged results`() = transaction(db) {
 		val criteria = criteria {
 			page = 1
 			pageSize = 2
@@ -387,7 +385,7 @@ class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	}
 
 	@Test
-	fun `it should return paged results and return next page items`() = transaction {
+	fun `it should return paged results and return next page items`() = transaction(db) {
 		for (page in 2..5) {
 			val criteria = criteria {
 				this.page = page

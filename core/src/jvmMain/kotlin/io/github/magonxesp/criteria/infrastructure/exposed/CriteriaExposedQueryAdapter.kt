@@ -13,6 +13,7 @@ class CriteriaExposedQueryAdapter(
 ) {
 	fun apply(criteria: Criteria, query: Query) {
 		val filterAdapter = FilterPredicateAdapter(columns, fieldMap)
+		val orderAdapter = OrderPredicateAdapter(columns, fieldMap)
 
 		criteria.filters.takeIf { it.isNotEmpty() }?.also { filters ->
 			filters.forEach { filter ->
@@ -20,6 +21,15 @@ class CriteriaExposedQueryAdapter(
 					filterAdapter.adapt(filter)
 				}
 			}
+		}
+
+		criteria.orderBy.takeIf { it.isNotEmpty() }?.also {
+			query.orderBy(*orderAdapter.adapt(it))
+		}
+
+		if (criteria.pagination.size != null) {
+			query.limit(criteria.pagination.size)
+			query.offset(((criteria.pagination.page - 1) * criteria.pagination.size).toLong())
 		}
 	}
 }

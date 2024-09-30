@@ -99,6 +99,7 @@ kotlin {
 				implementation("org.jetbrains.exposed:exposed-json:$exposedVersion")
 				implementation("org.jetbrains.exposed:exposed-money:$exposedVersion")
 				implementation("org.postgresql:postgresql:42.7.1")
+				implementation("org.mariadb.jdbc:mariadb-java-client:3.3.3")
             }
         }
 		jvmTest {
@@ -110,6 +111,7 @@ kotlin {
 				implementation("org.testcontainers:testcontainers:$testContainersVersion")
 				implementation("org.testcontainers:mongodb:$testContainersVersion")
 				implementation("org.testcontainers:postgresql:$testContainersVersion")
+				implementation("org.testcontainers:mariadb:$testContainersVersion")
 			}
 		}
 
