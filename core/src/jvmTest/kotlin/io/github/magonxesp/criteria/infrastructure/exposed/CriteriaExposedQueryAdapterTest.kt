@@ -44,11 +44,11 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	abstract fun setupDatabaseConnection(): Database
 
 	private val columns = mapOf(
-		BookTable::id.name to BookTable.id as Column<Any>,
-		BookTable::title.name to BookTable.title as Column<Any>,
-		BookTable::author.name to BookTable.author as Column<Any>,
-		BookTable::stock.name to BookTable.stock as Column<Any>,
-		BookTable::numericalId.name to BookTable.numericalId as Column<Any>,
+		BookTable::id.name toColumn BookTable.id,
+		BookTable::title.name toColumn BookTable.title,
+		BookTable::author.name toColumn BookTable.author,
+		BookTable::stock.name toColumn BookTable.stock,
+		BookTable::numericalId.name toColumn BookTable.numericalId,
 	)
 
 	@Test
