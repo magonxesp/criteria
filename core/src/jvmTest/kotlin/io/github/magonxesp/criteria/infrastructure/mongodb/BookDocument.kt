@@ -1,4 +1,4 @@
-package io.github.magonxesp.criteria.infrastructure.mongodb.documents
+package io.github.magonxesp.criteria.infrastructure.mongodb
 
 import kotlinx.serialization.Serializable
 
