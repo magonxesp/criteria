@@ -4,13 +4,12 @@ import io.github.magonxesp.criteria.IntegrationTestCase
 import io.github.magonxesp.criteria.domain.FilterOperator
 import io.github.magonxesp.criteria.domain.Order
 import io.github.magonxesp.criteria.domain.criteria
-import io.github.magonxesp.criteria.infrastructure.mongodb.BookDocument
+import io.github.magonxesp.criteria.infrastructure.map.fieldMapOf
 import io.github.magonxesp.criteria.random
 import io.kotest.common.runBlocking
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldNotContain
 import io.kotest.matchers.shouldBe
-import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.selectAll
@@ -54,7 +53,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	@Test
 	fun `it should find by exact title`() = transaction(db) {
 		val criteria = criteria {
-			filter(BookDocument::title.name, book.title, FilterOperator.EQUALS)
+			filter(BookTable::title.name, book.title, FilterOperator.EQUALS)
 		}
 
 		val query = BookTable.selectAll()
@@ -68,7 +67,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	@Test
 	fun `it should not find by exact title`() = transaction(db) {
 		val criteria = criteria {
-			filter(BookDocument::title.name, book.title, FilterOperator.NOT_EQUALS)
+			filter(BookTable::title.name, book.title, FilterOperator.NOT_EQUALS)
 		}
 
 		val query = BookTable.selectAll()
@@ -82,7 +81,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	@Test
 	fun `it should find by stock is more than`() = transaction(db) {
 		val criteria = criteria {
-			filter(BookDocument::stock.name, book.stock - 1, FilterOperator.GREATER_THAN)
+			filter(BookTable::stock.name, book.stock - 1, FilterOperator.GREATER_THAN)
 		}
 
 		val query = BookTable.selectAll()
@@ -96,7 +95,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	@Test
 	fun `it should not find by stock is more than`() = transaction(db) {
 		val criteria = criteria {
-			filter(BookDocument::stock.name, book.stock, FilterOperator.GREATER_THAN)
+			filter(BookTable::stock.name, book.stock, FilterOperator.GREATER_THAN)
 		}
 
 		val query = BookTable.selectAll()
@@ -110,7 +109,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	@Test
 	fun `it should find by stock is more than or equals`() = transaction(db) {
 		val criteria = criteria {
-			filter(BookDocument::stock.name, book.stock, FilterOperator.GREATER_THAN_EQUALS)
+			filter(BookTable::stock.name, book.stock, FilterOperator.GREATER_THAN_EQUALS)
 		}
 
 		val query = BookTable.selectAll()
@@ -124,7 +123,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	@Test
 	fun `it should not find by stock is more than or equals`() = transaction(db) {
 		val criteria = criteria {
-			filter(BookDocument::stock.name, book.stock + 1, FilterOperator.GREATER_THAN_EQUALS)
+			filter(BookTable::stock.name, book.stock + 1, FilterOperator.GREATER_THAN_EQUALS)
 		}
 
 		val query = BookTable.selectAll()
@@ -139,7 +138,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	@Test
 	fun `it should find by stock is less than`() = transaction(db) {
 		val criteria = criteria {
-			filter(BookDocument::stock.name, book.stock + 1, FilterOperator.LESS_THAN)
+			filter(BookTable::stock.name, book.stock + 1, FilterOperator.LESS_THAN)
 		}
 
 		val query = BookTable.selectAll()
@@ -153,7 +152,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	@Test
 	fun `it should not find by stock is less than`() = transaction(db) {
 		val criteria = criteria {
-			filter(BookDocument::stock.name, book.stock, FilterOperator.LESS_THAN)
+			filter(BookTable::stock.name, book.stock, FilterOperator.LESS_THAN)
 		}
 
 		val query = BookTable.selectAll()
@@ -167,7 +166,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	@Test
 	fun `it should find by stock is less than or equals`() = transaction(db) {
 		val criteria = criteria {
-			filter(BookDocument::stock.name, book.stock, FilterOperator.LESS_THAN_EQUALS)
+			filter(BookTable::stock.name, book.stock, FilterOperator.LESS_THAN_EQUALS)
 		}
 
 		val query = BookTable.selectAll()
@@ -181,7 +180,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	@Test
 	fun `it should not find by stock is less than or equals`() = transaction(db) {
 		val criteria = criteria {
-			filter(BookDocument::stock.name, book.stock - 1, FilterOperator.LESS_THAN_EQUALS)
+			filter(BookTable::stock.name, book.stock - 1, FilterOperator.LESS_THAN_EQUALS)
 		}
 
 		val query = BookTable.selectAll()
@@ -197,7 +196,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 		val fragment = book.title.split(" ").first()
 
 		val criteria = criteria {
-			filter(BookDocument::title.name, fragment, FilterOperator.CONTAINS)
+			filter(BookTable::title.name, fragment, FilterOperator.CONTAINS)
 		}
 
 		val query = BookTable.selectAll()
@@ -213,7 +212,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 		val fragment = "noexistingtitle"
 
 		val criteria = criteria {
-			filter(BookDocument::title.name, fragment, FilterOperator.CONTAINS)
+			filter(BookTable::title.name, fragment, FilterOperator.CONTAINS)
 		}
 
 		val query = BookTable.selectAll()
@@ -229,7 +228,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 		val fragment = book.title.split(" ").first()
 
 		val criteria = criteria {
-			filter(BookDocument::title.name, fragment, FilterOperator.NOT_CONTAINS)
+			filter(BookTable::title.name, fragment, FilterOperator.NOT_CONTAINS)
 		}
 
 		val query = BookTable.selectAll()
@@ -245,7 +244,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 		val fragment = "noexistingtitle"
 
 		val criteria = criteria {
-			filter(BookDocument::title.name, fragment, FilterOperator.NOT_CONTAINS)
+			filter(BookTable::title.name, fragment, FilterOperator.NOT_CONTAINS)
 		}
 
 		val query = BookTable.selectAll()
@@ -261,7 +260,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 		val regex = ".*${book.title.split(" ").first()}.*"
 
 		val criteria = criteria {
-			filter(BookDocument::title.name, regex, FilterOperator.REGEX)
+			filter(BookTable::title.name, regex, FilterOperator.REGEX)
 		}
 
 		val query = BookTable.selectAll()
@@ -277,7 +276,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 		val regex = ".*noexitingbook.*"
 
 		val criteria = criteria {
-			filter(BookDocument::title.name, regex, FilterOperator.REGEX)
+			filter(BookTable::title.name, regex, FilterOperator.REGEX)
 		}
 
 		val query = BookTable.selectAll()
@@ -296,7 +295,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 		)
 
 		val criteria = criteria {
-			filter(BookDocument::title.name, titles, FilterOperator.CONTAINS)
+			filter(BookTable::title.name, titles, FilterOperator.CONTAINS)
 		}
 
 		val query = BookTable.selectAll()
@@ -316,7 +315,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 		)
 
 		val criteria = criteria {
-			filter(BookDocument::title.name, titles, FilterOperator.CONTAINS)
+			filter(BookTable::title.name, titles, FilterOperator.CONTAINS)
 		}
 
 		val query = BookTable.selectAll()
@@ -336,7 +335,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 		)
 
 		val criteria = criteria {
-			filter(BookDocument::title.name, titles, FilterOperator.NOT_CONTAINS)
+			filter(BookTable::title.name, titles, FilterOperator.NOT_CONTAINS)
 		}
 
 		val query = BookTable.selectAll()
@@ -356,7 +355,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 		)
 
 		val criteria = criteria {
-			filter(BookDocument::title.name, titles, FilterOperator.NOT_CONTAINS)
+			filter(BookTable::title.name, titles, FilterOperator.NOT_CONTAINS)
 		}
 
 		val query = BookTable.selectAll()
@@ -408,7 +407,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	@Test
 	fun `it should sort asc`() = transaction(db) {
 		val criteria = criteria {
-			orderBy(BookDocument::numericalId.name, Order.ASC)
+			orderBy(BookTable::numericalId.name, Order.ASC)
 		}
 
 		val query = BookTable.selectAll()
@@ -422,7 +421,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	@Test
 	fun `it should sort desc`() = transaction(db) {
 		val criteria = criteria {
-			orderBy(BookDocument::numericalId.name, Order.DESC)
+			orderBy(BookTable::numericalId.name, Order.DESC)
 		}
 
 		val query = BookTable.selectAll()
@@ -431,5 +430,23 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 		val result = query.toEntityList()
 
 		result shouldBe books.reversed()
+	}
+
+	@Test
+	fun `it should find by title mapped with other name`() = transaction(db) {
+		val fieldMap = fieldMapOf(
+			"my_title" to BookTable::title.name
+		)
+
+		val criteria = criteria {
+			filter("my_title", book.title, FilterOperator.EQUALS)
+		}
+
+		val query = BookTable.selectAll()
+		CriteriaExposedQueryAdapter(columns, fieldMap).apply(criteria, query)
+
+		val result = query.toEntityList()
+
+		result shouldContain book
 	}
 }
