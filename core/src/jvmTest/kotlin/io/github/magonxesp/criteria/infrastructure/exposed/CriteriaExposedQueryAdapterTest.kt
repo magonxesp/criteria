@@ -2,6 +2,7 @@ package io.github.magonxesp.criteria.infrastructure.exposed
 
 import io.github.magonxesp.criteria.IntegrationTestCase
 import io.github.magonxesp.criteria.domain.FilterOperator
+import io.github.magonxesp.criteria.domain.Order
 import io.github.magonxesp.criteria.domain.criteria
 import io.github.magonxesp.criteria.infrastructure.mongodb.BookDocument
 import io.github.magonxesp.criteria.random
@@ -402,5 +403,33 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 			result.size shouldBe 2
 			result shouldBe expectedPage
 		}
+	}
+
+	@Test
+	fun `it should sort asc`() = transaction(db) {
+		val criteria = criteria {
+			orderBy(BookDocument::numericalId.name, Order.ASC)
+		}
+
+		val query = BookTable.selectAll()
+		CriteriaExposedQueryAdapter(columns).apply(criteria, query)
+
+		val result = query.toEntityList()
+
+		result shouldBe books
+	}
+
+	@Test
+	fun `it should sort desc`() = transaction(db) {
+		val criteria = criteria {
+			orderBy(BookDocument::numericalId.name, Order.DESC)
+		}
+
+		val query = BookTable.selectAll()
+		CriteriaExposedQueryAdapter(columns).apply(criteria, query)
+
+		val result = query.toEntityList()
+
+		result shouldBe books.reversed()
 	}
 }
