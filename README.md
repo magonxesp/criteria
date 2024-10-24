@@ -10,7 +10,7 @@ Add the dependency on your `build.gradle.kts`
 
 ```kotlin
 dependencies {
-    implementation("io.github.magonxesp:criteria-core:1.2.0")
+    implementation("io.github.magonxesp:criteria-core:1.3.0")
 }
 ```
 
@@ -18,7 +18,7 @@ For Spring Boot and Spring Data JPA add the spring-boot dependency.
 
 ```kotlin
 dependencies {
-    implementation("io.github.magonxesp:criteria-spring-boot:1.2.0")
+    implementation("io.github.magonxesp:criteria-spring-boot:1.3.0")
 }
 ```
 

@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "io.github.magonxesp"
-version = "1.2.0"
+version = "1.3.0"
 
 mavenPublishing {
 	coordinates(group as String, "criteria-spring-boot", version as String)

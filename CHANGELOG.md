@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.3.0] - 2024-10-24
+
+### Bug Fixes
+
+- Makefile actions
+
+### Features
+
+- Support filter by uuid on jetbrains exposed framework
+
+### Testing
+
+- Field map
+
 ## [1.2.0] - 2024-09-30
 
 ### Features
