@@ -2,6 +2,8 @@ package io.github.magonxesp.criteria.infrastructure.exposed
 
 import io.github.magonxesp.criteria.domain.Filter
 import io.github.magonxesp.criteria.domain.FilterOperator
+import io.github.magonxesp.criteria.domain.isUUID
+import io.github.magonxesp.criteria.domain.toUUID
 import io.github.magonxesp.criteria.infrastructure.Adapter
 import io.github.magonxesp.criteria.infrastructure.map.FieldMap
 import kotlinx.datetime.Instant
@@ -19,6 +21,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.neq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.notInList
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.notLike
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.regexp
+import java.util.UUID
 
 class FilterPredicateAdapter(
 	private val columns: Map<String, Column<Any>>,
@@ -63,6 +66,24 @@ class FilterPredicateAdapter(
 				is Int -> column greaterEq value
 				else -> null
 			}
+            else -> null
+        }
+    }
+
+	private fun Filter.uuidPredicate(): Op<Boolean>? {
+        if (value !is String && value !is UUID) {
+            return null
+        }
+
+		if (value is String && !value.isUUID()) {
+			return null
+		}
+
+		val uuid: UUID = if (value is String) value.toUUID() else value as UUID
+
+        return when (operator) {
+            FilterOperator.EQUALS -> column eq uuid
+            FilterOperator.NOT_EQUALS -> column neq uuid
             else -> null
         }
     }
@@ -130,9 +151,10 @@ class FilterPredicateAdapter(
 
     private fun Filter.toPredicate(): Op<Boolean> =
 		numberPredicate()
+		?: uuidPredicate()
+		?: instantPredicate()
         ?: stringPredicate()
         ?: booleanPredicate()
-        ?: instantPredicate()
 		?: listPredicate()
         ?: error("The filter operator ${operator.operator} is not supported by the given value type")
 

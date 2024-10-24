@@ -23,6 +23,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 	val books = (0..50).map {
 		BookEntity(
 			id = UUID.randomUUID().toString(),
+			uuid = UUID.randomUUID(),
 			numericalId = it,
 			title = random().book.title(),
 			author = random().book.author(),
@@ -44,6 +45,7 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 
 	private val columns = mapOf(
 		BookTable::id.name toColumn BookTable.id,
+		BookTable.uuid.name toColumn BookTable.uuid,
 		BookTable::title.name toColumn BookTable.title,
 		BookTable::author.name toColumn BookTable.author,
 		BookTable::stock.name toColumn BookTable.stock,
@@ -448,5 +450,47 @@ abstract class CriteriaExposedQueryAdapterTest : IntegrationTestCase() {
 		val result = query.toEntityList()
 
 		result shouldContain book
+	}
+
+	@Test
+	fun `it should find by equals uuid`() = transaction(db) {
+		val criteria = criteria {
+			filter(BookTable.uuid.name, book.uuid, FilterOperator.EQUALS)
+		}
+
+		val query = BookTable.selectAll()
+		CriteriaExposedQueryAdapter(columns).apply(criteria, query)
+
+		val result = query.toEntityList()
+
+		result shouldContain book
+	}
+
+	@Test
+	fun `it should find by equals uuid as string`() = transaction(db) {
+		val criteria = criteria {
+			filter(BookTable.uuid.name, book.uuid.toString(), FilterOperator.EQUALS)
+		}
+
+		val query = BookTable.selectAll()
+		CriteriaExposedQueryAdapter(columns).apply(criteria, query)
+
+		val result = query.toEntityList()
+
+		result shouldContain book
+	}
+
+	@Test
+	fun `it should find by not equals uuid`() = transaction(db) {
+		val criteria = criteria {
+			filter(BookTable.uuid.name, book.uuid, FilterOperator.NOT_EQUALS)
+		}
+
+		val query = BookTable.selectAll()
+		CriteriaExposedQueryAdapter(columns).apply(criteria, query)
+
+		val result = query.toEntityList()
+
+		result shouldNotContain book
 	}
 }
