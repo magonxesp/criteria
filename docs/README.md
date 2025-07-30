@@ -1,24 +1,41 @@
-# Introduction
+# Website
 
-The Criteria design pattern helps us to maintain a single form to perform search queries on our database.
+This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
-It helps to implement the repository design pattern, avoiding creating a bunch of methods to create the same query with different filters.
+## Installation
 
-This implementation is adapted for the following drivers or ORMs:
-
-* [Koltin coroutine MongoDB driver](https://www.mongodb.com/docs/drivers/kotlin/coroutine/current/)
-* [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
-
-### Instalation
-
-Add the `criteria-core` dependency on your `build.gradle.kts`.
-
-```kotlin
-implementation("io.github.magonxesp:criteria-core:0.2.8")
+```bash
+yarn
 ```
 
-For **Spring Boot and** **Spring Data JPA** add the spring-boot dependency.
+## Local Development
 
-```kotlin
-implementation("io.github.magonxesp:criteria-spring-boot:0.2.8")
+```bash
+yarn start
 ```
+
+This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+
+## Build
+
+```bash
+yarn build
+```
+
+This command generates static content into the `build` directory and can be served using any static contents hosting service.
+
+## Deployment
+
+Using SSH:
+
+```bash
+USE_SSH=true yarn deploy
+```
+
+Not using SSH:
+
+```bash
+GIT_USER=<Your GitHub username> yarn deploy
+```
+
+If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.

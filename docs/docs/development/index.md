@@ -13,7 +13,7 @@
 
 * OpenJDK 21
 * jq - [Install jq](https://jqlang.github.io/jq/download/)
-* Git cliff - [Install git cliff](./install-git-cliff.md)
+* Git cliff - [Install git cliff](install-git-cliff.md)
 * Make
 * Gradle 8.5 (wrapper is recommended)
 

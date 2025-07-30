@@ -12,6 +12,12 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
@@ -20,10 +26,19 @@ jobs:
         with:
           cmdline-tools-version: 11076708 # Android 13
 
-      - name: Build documentation
+      - name: Build reference documentation
         run: ./gradlew dokkaHtmlMultiModule
+
+      - name: Copy reference documentation to docusaurus
+        run: cp -r build/dokka/htmlMultiModule/* docs/static/reference/
+
+      - name: Build docs
+        run: |
+          npm install
+          npm run build
+        working-directory: ./docs
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: build/dokka/htmlMultiModule # The folder the action should deploy.
+          folder: docs/build # The folder the action should deploy.

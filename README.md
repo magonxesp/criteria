@@ -28,4 +28,4 @@ dependencies {
 
 ## Development
 
-[See the development guide](./docs/development.md)
+[See the development guide](gitbook_docs/development.md)
