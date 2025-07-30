@@ -24,8 +24,8 @@ dependencies {
 
 ## Usage
 
-[Read the docs](https://magonxesp.gitbook.io/criteria/).
+[Read the docs](https://magonxesp.github.io/criteria).
 
 ## Development
 
-[See the development guide](gitbook_docs/development.md)
+[See the development guide](https://magonxesp.github.io/criteria/development)
